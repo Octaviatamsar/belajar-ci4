@@ -1,98 +1,116 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Models\BukuModel;
 use App\Models\KategoriModel;
+
 class Buku extends BaseController
 {
-private BukuModel $bukuModel;
-private KategoriModel $kategoriModel;
-public function __construct()
-{
-$this->bukuModel = new BukuModel();
-$this->kategoriModel = new KategoriModel();
-}
-// ──────────────────────────────────────
-// READ - Daftar Buku dengan Search & Paginasi
-// ──────────────────────────────────────
-public function index(): string
-{
-$keyword = $this->request->getGet('q') ?? '';
-$perPage = 10;
-$buku = $this->bukuModel->getBukuPaginate($perPage, $keyword);
-$pager = $this->bukuModel->pager;
-$data = [
-'title' => 'Daftar Buku',
-'buku' => $buku,
-'pager' => $pager,
-'keyword' => $keyword,
-'total' => $this->bukuModel->countAllResults(false),
-];
-return view('buku/index', $data);
-}
-// ──────────────────────────────────────
-// READ - Detail satu buku
-// ──────────────────────────────────────
-public function detail(int $id): string
-{
-$buku = $this->bukuModel
-->select('buku.*, kategori.nama AS nama_kategori')
-->join('kategori', 'kategori.id = buku.kategori_id', 'left')
-->find($id);
-if (!$buku) {
-throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak
+    private BukuModel $bukuModel;
+    private KategoriModel $kategoriModel;
+    public function __construct()
+    {
+        $this->bukuModel = new BukuModel();
+        $this->kategoriModel = new KategoriModel();
+    }
+    // ──────────────────────────────────────
+    // READ - Daftar Buku dengan Search & Paginasi
+    // ──────────────────────────────────────
+    public function index(): string
+    {
+        $keyword = $this->request->getGet('q') ?? '';
+        $perPage = 10;
+        $buku = $this->bukuModel->getBukuPaginate($perPage, $keyword);
+        $pager = $this->bukuModel->pager;
+        $data = [
+            'title' => 'Daftar Buku',
+            'buku' => $buku,
+            'pager' => $pager,
+            'keyword' => $keyword,
+            'total' => $this->bukuModel->countAllResults(false),
+        ];
+        return view('buku/index', $data);
+    }
+    // ──────────────────────────────────────
+    // READ - Statistik buku
+    // ──────────────────────────────────────
+    public function statistik(): string
+    {
+        $statistik = $this->bukuModel->getStatistikData();
+        $statistik['average_stok'] = $statistik['total'] > 0
+            ? round($statistik['total_stok'] / $statistik['total'], 2)
+            : 0;
+
+        return view('buku/statistik', [
+            'title' => 'Statistik Buku',
+            'statistik' => $statistik,
+        ]);
+    }
+    // ──────────────────────────────────────
+    // READ - Detail satu buku
+    // ──────────────────────────────────────
+    public function detail(int $id): string
+    {
+        $buku = $this->bukuModel
+            ->select('buku.*, kategori.nama AS nama_kategori')
+            ->join('kategori', 'kategori.id = buku.kategori_id', 'left')
+            ->find($id);
+        if (!$buku) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak
 ditemukan');
-}
-return view('buku/detail', ['title' => 'Detail Buku', 'buku' => $buku]);
-}
-// ──────────────────────────────────────
-// CREATE - Form tambah
-// ──────────────────────────────────────
-public function tambah(): string
-{
-return view('buku/form', [
-'title' => 'Tambah Buku',
-'buku' => null,
-'kategori' => $this->kategoriModel->getDropdown(),
-]);
-}
-// ──────────────────────────────────────
-// CREATE - Proses simpan
-// ──────────────────────────────────────
-public function simpan()
-{
-$data = $this->ambilDataForm();
-// Validasi kode unik
-if ($this->bukuModel->isKodeTaken($data['kode_buku'])) {
-session()->setFlashdata('error', 'Kode buku sudah digunakan.');
-return redirect()->back()->withInput();
-}
-$this->bukuModel->insert($data);
-session()->setFlashdata('sukses', "Buku '{$data['judul']}' berhasil
+        }
+        return view('buku/detail', ['title' => 'Detail Buku', 'buku' => $buku]);
+    }
+    // ──────────────────────────────────────
+    // CREATE - Form tambah
+    // ──────────────────────────────────────
+    public function tambah(): string
+    {
+        return view('buku/form', [
+            'title' => 'Tambah Buku',
+            'buku' => null,
+            'kategori' => $this->kategoriModel->getDropdown(),
+        ]);
+    }
+    // ──────────────────────────────────────
+    // CREATE - Proses simpan
+    // ──────────────────────────────────────
+    public function simpan()
+    {
+        $data = $this->ambilDataForm();
+        // Validasi kode unik
+        if ($this->bukuModel->isKodeTaken($data['kode_buku'])) {
+            session()->setFlashdata('error', 'Kode buku sudah digunakan.');
+            return redirect()->back()->withInput();
+        }
+        $this->bukuModel->insert($data);
+        session()->setFlashdata('sukses', "Buku '{$data['judul']}' berhasil
 ditambahkan.");
-return redirect()->to('/buku');
-}
-// ──────────────────────────────────────
-// UPDATE - Form edit
-// ──────────────────────────────────────
-public function edit(int $id): string
-{
-$buku = $this->bukuModel->find($id);
-if (!$buku) {
-throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak
+        return redirect()->to('/buku');
+    }
+    // ──────────────────────────────────────
+    // UPDATE - Form edit
+    // ──────────────────────────────────────
+    public function edit(int $id): string
+    {
+        $buku = $this->bukuModel->find($id);
+        if (!$buku) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak
 ditemukan');
-}
-return view('buku/form', [
-'title' => 'Edit Buku: ' . $buku['judul'],
-'buku' => $buku,
-'kategori' => $this->kategoriModel->getDropdown(),
-]);
-}
-// ──────────────────────────────────────
-// UPDATE - Proses update
-// ──────────────────────────────────────
-public function update(int $id)
-{
-$data = $this->ambilDataForm();
+        }
+        return view('buku/form', [
+            'title' => 'Edit Buku: ' . $buku['judul'],
+            'buku' => $buku,
+            'kategori' => $this->kategoriModel->getDropdown(),
+        ]);
+    }
+    // ──────────────────────────────────────
+    // UPDATE - Proses update
+    // ──────────────────────────────────────
+    public function update(int $id)
+    {
+        $data = $this->ambilDataForm();
         // Validasi kode unik, kecuali buku yang sedang diedit
         if ($this->bukuModel->isKodeTaken($data['kode_buku'], $id)) {
             session()->setFlashdata('error', 'Kode buku sudah digunakan buku lain.');
