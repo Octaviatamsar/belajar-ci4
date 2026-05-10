@@ -119,6 +119,45 @@ dihapus.");
         return redirect()->to('/buku');
     }
     // ──────────────────────────────────────
+    // EKSPOR CSV
+    // ──────────────────────────────────────
+    public function ekspor()
+    {
+        $buku = $this->bukuModel->getBukuDenganKategori();
+        $tanggal = date('Y-m-d');
+        $filename = "buku-export-{$tanggal}.csv";
+
+        // Header CSV
+        $header = ['No', 'Kode', 'Judul', 'Penulis', 'Penerbit', 'Tahun', 'Stok', 'Kategori'];
+
+        // Mulai output CSV
+        $output = fopen('php://temp', 'w');
+        fputcsv($output, $header);
+
+        foreach ($buku as $i => $b) {
+            $row = [
+                $i + 1,
+                $b['kode_buku'],
+                $b['judul'],
+                $b['penulis'],
+                $b['penerbit'] ?? '',
+                $b['tahun'] ?? '',
+                $b['stok'],
+                $b['nama_kategori'] ?? ''
+            ];
+            fputcsv($output, $row);
+        }
+
+        rewind($output);
+        $csvContent = stream_get_contents($output);
+        fclose($output);
+
+        return $this->response
+            ->setContentType('text/csv')
+            ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->setBody($csvContent);
+    }
+    // ──────────────────────────────────────
     // PRIVATE HELPER - Kumpulkan data dari form
     // ──────────────────────────────────────
     private function ambilDataForm(): array
