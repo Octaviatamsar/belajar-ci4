@@ -42,17 +42,24 @@
                             <i class='bi bi-journals'></i> Buku
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('profil') ?>">
-                            <i class="bi bi-person-circle"></i> Profil
+                    <li class='nav-item'>
+                        <a class='nav-link <?= str_contains($currentPath, 'kategori') ? 'active' : '' ?>'
+                            href='<?= base_url('kategori') ?>'>
+                            <i class='bi bi-tags'></i> Kategori
                         </a>
                     </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('galeri') ?>">
-                                <i class="bi bi-images"></i> Galeri
-                            </a>
-                        </li>
-                    </ul>
+                    <li class='nav-item'>
+                        <a class='nav-link <?= str_contains($currentPath, 'profil') ? 'active' : '' ?>'
+                            href='<?= base_url('profil') ?>'>
+                            <i class='bi bi-person-circle'></i> Profil
+                        </a>
+                    </li>
+                    <li class='nav-item'>
+                        <a class='nav-link <?= str_contains($currentPath, 'galeri') ? 'active' : '' ?>'
+                            href='<?= base_url('galeri') ?>'>
+                            <i class='bi bi-images'></i> Galeri
+                        </a>
+                    </li>
                     <li class='nav-item'>
                         <a class='nav-link <?= ($currentPath === 'tentang') ? 'active' : '' ?>'
                             href='<?= base_url('tentang') ?>'>

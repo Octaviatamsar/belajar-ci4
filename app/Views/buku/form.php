@@ -27,8 +27,7 @@
                             <div class='mb-3'>
                                 <label class='form-label fw-bold'>Kode Buku <span
                                         class='text-danger'>*</span></label>
-                                <input type='text' name='kode_buku' class='form-
-control'
+                                <input type='text' name='kode_buku' class='form-control'
                                     value='<?= esc(old(
                                                 'kode_buku',
                                                 $buku['kode_buku'] ?? ''
@@ -50,8 +49,7 @@ control'
                             <div class='mb-3'>
                                 <label class='form-label fw-bold'>Penulis <span
                                         class='text-danger'>*</span></label>
-                                <input type='text' name='penulis' class='form-
-control'
+                                <input type='text' name='penulis' class='form-control'
                                     value='<?= esc(old(
                                                 'penulis',
                                                 $buku['penulis'] ?? ''
@@ -59,8 +57,7 @@ control'
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label fw-bold'>Penerbit</label>
-                                <input type='text' name='penerbit' class='form-
-control'
+                                <input type='text' name='penerbit' class='form-control'
                                     value='<?= esc(old(
                                                 'penerbit',
                                                 $buku['penerbit'] ?? ''
@@ -116,7 +113,6 @@ control'
                     <!-- Tombol Aksi -->
                     <div class='d-flex gap-2'>
                         <button type='submit' class='btn btn-primary'>
-                            Halaman 18 dari 23
                             <i class='bi bi-save'></i> <?= $isEdit ? 'Perbarui' :
                                                             'Simpan' ?>
                         </button>

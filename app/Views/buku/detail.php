@@ -81,7 +81,6 @@
                             <?php elseif ($buku['stok'] > 0): ?>
                                 <span class="badge bg-warning">Stok Menipis</span>
                             <?php else: ?>
-                                Halaman 20 dari 23
                                 <span class="badge bg-danger">Habis</span>
                             <?php endif; ?>
                         </p>

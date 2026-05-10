@@ -31,8 +31,7 @@
         <i class='bi bi-inbox display-1 text-muted'></i>
         <h4 class='mt-3 text-muted'>Tidak ada buku ditemukan</h4>
         <?php if ($keyword): ?>
-            <p>Coba kata kunci lain atau <a href='<?= base_url('buku') ?>'>lihat
-                    semua buku</a>.</p>
+            <p>Coba kata kunci lain atau <a href='<?= base_url('buku') ?>'>lihat semua buku</a>.</p>
         <?php endif; ?>
     </div>
 <?php else: ?>
@@ -63,8 +62,7 @@
                         <td><?= esc($b['penulis']) ?></td>
                         <td>
                             <?php if ($b['nama_kategori']): ?>
-                                <span class='badge bg-info'><?=
-                                                            esc($b['nama_kategori']) ?></span>
+                                <span class='badge bg-info'><?= esc($b['nama_kategori']) ?></span>
                             <?php else: ?>
                                 <span class='text-muted'>-</span>
                             <?php endif; ?>
@@ -75,12 +73,10 @@
                             </span>
                         </td>
                         <td class='text-center'>
-                            <a href='<?= base_url('buku/detail/' . $b['id']) ?>' class='btn
-btn-sm btn-info' title='Detail'>
+                            <a href='<?= base_url('buku/detail/' . $b['id']) ?>' class='btn btn-sm btn-info' title='Detail'>
                                 <i class='bi bi-eye'></i>
                             </a>
-                            <a href='<?= base_url('buku/edit/' . $b['id']) ?>' class='btn
-btn-sm btn-warning' title='Edit'>
+                            <a href='<?= base_url('buku/edit/' . $b['id']) ?>' class='btn btn-sm btn-warning' title='Edit'>
                                 <i class='bi bi-pencil'></i>
                             </a>
                             <a href='<?= base_url('buku/hapus/' . $b['id']) ?>'
