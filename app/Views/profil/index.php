@@ -8,6 +8,13 @@
                 <h4 class='mb-0'>Profil Mahasiswa</h4>
             </div>
             <div class='card-body'>
+                <div class='d-flex align-items-center mb-4'>
+                    <img src='<?= esc(avatar_url($nama)) ?>' alt='Avatar <?= esc($nama) ?>' class='rounded-circle me-3' width='80' height='80'>
+                    <div>
+                        <p class='mb-1 fw-bold'>Inisial Nama</p>
+                        <p class='fs-5 mb-0'><?= esc(inisial_nama($nama)) ?></p>
+                    </div>
+                </div>
                 <div class='row mb-3'>
                     <div class='col-md-6'>
                         <p class='mb-1 fw-bold'>NPM</p>

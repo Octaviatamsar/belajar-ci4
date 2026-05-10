@@ -56,6 +56,40 @@ if (!function_exists('truncate_text')) {
         return substr($text, 0, $length) . '...';
     }
 }
+if (!function_exists('inisial_nama')) {
+    /**
+     * Ambil inisial dari nama lengkap
+     * @param string $namaLengkap
+     * @return string Inisial huruf kapital
+     */
+    function inisial_nama(string $namaLengkap): string
+    {
+        $words = preg_split('/\s+/', trim($namaLengkap));
+        $initials = '';
+
+        foreach ($words as $word) {
+            if ($word !== '') {
+                $initials .= mb_strtoupper(mb_substr($word, 0, 1));
+            }
+        }
+
+        return $initials;
+    }
+}
+
+if (!function_exists('avatar_url')) {
+    /**
+     * Generate avatar URL using ui-avatars.com
+     * @param string $nama
+     * @return string URL avatar
+     */
+    function avatar_url(string $nama): string
+    {
+        $encoded = rawurlencode(trim($nama));
+        return "https://ui-avatars.com/api/?name={$encoded}&background=0D6EFD&color=ffffff&rounded=true&size=128";
+    }
+}
+
 if (!function_exists('status_badge')) {
     /**
      * Menghasilkan HTML badge Bootstrap berdasarkan status
