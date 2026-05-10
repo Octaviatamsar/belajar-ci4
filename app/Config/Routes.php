@@ -11,3 +11,4 @@ $routes->get('tentang', 'Beranda::tentang');
 // Route controller Demo
 $routes->get('demo', 'Demo::index');
 $routes->get('profil', 'Profil::index');
+$routes->get('galeri', 'Galeri::index');
