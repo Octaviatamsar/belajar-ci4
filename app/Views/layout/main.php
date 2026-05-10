@@ -10,8 +10,7 @@
         href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css'
         rel='stylesheet'>
     <!-- Bootstrap Icons -->
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-
-icons.css'
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css'
         rel='stylesheet'>
     <!-- Custom CSS -->
     <link rel='stylesheet' href='<?= base_url('assets/css/custom.css') ?>'>
@@ -43,6 +42,17 @@ icons.css'
                             <i class='bi bi-journals'></i> Buku
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('profil') ?>">
+                            <i class="bi bi-person-circle"></i> Profil
+                        </a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('galeri') ?>">
+                                <i class="bi bi-images"></i> Galeri
+                            </a>
+                        </li>
+                    </ul>
                     <li class='nav-item'>
                         <a class='nav-link <?= ($currentPath === 'tentang') ? 'active' : '' ?>'
                             href='<?= base_url('tentang') ?>'>
@@ -50,6 +60,7 @@ icons.css'
                         </a>
                     </li>
                 </ul>
+
                 <div class='navbar-nav'>
                     <?php if (session()->get('logged_in')): ?>
                         <span class='navbar-text me-3 text-light'>

@@ -8,4 +8,14 @@ class Home extends BaseController
     {
         return view('welcome_message');
     }
+
+    public function profil(): string
+    {
+        return view('profil');
+    }
+
+    public function galeri(): string
+    {
+        return view('galeri');
+    }
 }
