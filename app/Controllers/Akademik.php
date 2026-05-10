@@ -26,4 +26,24 @@ class Akademik extends BaseController
     {
         echo "Nilai mahasiswa dengan NIM: " . $nim;
     }
+
+    public function testAlpha($param)
+    {
+        echo "Parameter alpha: " . $param;
+    }
+
+    public function testAlphanum($param)
+    {
+        echo "Parameter alphanum: " . $param;
+    }
+
+    public function apiStatus()
+    {
+        echo "Status API: OK";
+    }
+
+    public function apiVersion()
+    {
+        echo "Versi API: 1.0";
+    }
 }
