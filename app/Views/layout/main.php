@@ -18,6 +18,7 @@ icons.css'
 </head>
 
 <body>
+    <?php $currentPath = trim(uri_string(), '/'); ?>
     <!-- NAVBAR -->
     <nav class='navbar navbar-expand-lg navbar-dark bg-primary shadow-sm'>
         <div class='container'>
@@ -31,21 +32,20 @@ icons.css'
             <div class='collapse navbar-collapse' id='navMenu'>
                 <ul class='navbar-nav me-auto'>
                     <li class='nav-item'>
-                        <a class='nav-link <?= (current_url() == base_url('/')) ?
-                                                'active' : '' ?>'
+                        <a class='nav-link <?= ($currentPath === '') ? 'active' : '' ?>'
                             href='<?= base_url('/') ?>'>
                             <i class='bi bi-house'></i> Beranda
                         </a>
                     </li>
                     <li class='nav-item'>
-                        <a class='nav-link <?= str_contains(current_url(), '/buku') ?
-                                                'active' : '' ?>'
+                        <a class='nav-link <?= str_contains($currentPath, 'buku') ? 'active' : '' ?>'
                             href='<?= base_url('buku') ?>'>
                             <i class='bi bi-journals'></i> Buku
                         </a>
                     </li>
                     <li class='nav-item'>
-                        <a class='nav-link' href='<?= base_url('tentang') ?>'>
+                        <a class='nav-link <?= ($currentPath === 'tentang') ? 'active' : '' ?>'
+                            href='<?= base_url('tentang') ?>'>
                             <i class='bi bi-info-circle'></i> Tentang
                         </a>
                     </li>
@@ -145,6 +145,7 @@ icons.css'
     <script
         src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'>
     </script>
+    <?= $this->renderSection('scripts') ?>
 </body>
 
 </html>
