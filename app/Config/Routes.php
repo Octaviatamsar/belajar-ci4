@@ -75,4 +75,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('/', 'Admin\Dashboard::index');
         $routes->get('pengguna', 'Admin\Pengguna::index');
     });
+
+    // Akun - ganti password untuk pengguna yang sudah login
+    $routes->get('akun/ganti-password', 'Auth::gantiPassword');
+    $routes->post('akun/proses-ganti-password', 'Auth::prosesGantiPassword');
 });

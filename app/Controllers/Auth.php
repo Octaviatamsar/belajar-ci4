@@ -64,6 +64,53 @@ return view('auth/login', ['title' => 'Masuk ke Sistem']);
         session()->setFlashdata('info', "Sampai jumpa, {$nama}! Anda telah logout.");
         return redirect()->to('/login');
     }
+    /** Form ganti password untuk pengguna yang sudah login. */
+    public function gantiPassword(): string
+    {
+        return view('auth/ganti_password', [
+            'title' => 'Ganti Password',
+        ]);
+    }
+    /** Proses ganti password. */
+    public function prosesGantiPassword()
+    {
+        $rules = [
+            'password_lama' => 'required|min_length[8]',
+            'password_baru' => 'required|min_length[8]',
+            'konfirmasi_password_baru' => [
+                'label' => 'Konfirmasi Password Baru',
+                'rules' => 'required|matches[password_baru]',
+                'errors' => ['matches' => 'Konfirmasi password baru tidak cocok.'],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
+        $userId = session()->get('user_id');
+        if (!$userId) {
+            session()->setFlashdata('error', 'Silakan login terlebih dahulu.');
+            return redirect()->to('/login');
+        }
+
+        $user = $this->userModel->find($userId);
+        if (!$user || !password_verify($this->request->getPost('password_lama'), $user['password'])) {
+            return redirect()->back()->withInput()
+                ->with('errors', ['Password lama tidak cocok.']);
+        }
+
+        $this->userModel->update($userId, [
+            'password' => password_hash(
+                $this->request->getPost('password_baru'),
+                PASSWORD_DEFAULT
+            ),
+        ]);
+
+        session()->setFlashdata('sukses', 'Password berhasil diperbarui.');
+        return redirect()->to('/');
+    }
     /** Halaman registrasi akun baru. */
     public function register(): string
     {
