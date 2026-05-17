@@ -1,7 +1,12 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <div class='d-flex justify-content-between align-items-center mb-4'>
-    <h2><i class='bi bi-speedometer2'></i> Dashboard Admin</h2>
+    <div>
+        <h2><i class='bi bi-speedometer2'></i> Dashboard Admin</h2>
+        <a href='<?= base_url('admin/pengguna') ?>' class='btn btn-sm btn-outline-primary mt-2'>
+            <i class='bi bi-people'></i> Kelola Pengguna
+        </a>
+    </div>
     <span class='text-muted'>Halo, <?= esc(session()->get('nama')) ?>!</span>
 </div>
 <!-- Kartu Statistik -->

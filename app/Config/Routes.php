@@ -59,7 +59,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->post('update/(:num)', 'Buku::update/$1');
         $routes->get('hapus/(:num)', 'Buku::hapus/$1');
     });
-    
+
     // Kategori - hanya admin dan petugas
     $routes->group('kategori', ['filter' => 'role'], function ($routes) {
         $routes->get('/', 'Kategori::index');
@@ -74,6 +74,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
         $routes->get('/', 'Admin\Dashboard::index');
         $routes->get('pengguna', 'Admin\Pengguna::index');
+        $routes->post('pengguna/toggle/(:num)', 'Admin\Pengguna::toggleAktif/$1');
+        $routes->post('pengguna/ubah-role/(:num)', 'Admin\Pengguna::ubahRole/$1');
     });
 
     // Akun - ganti password untuk pengguna yang sudah login

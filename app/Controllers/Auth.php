@@ -1,21 +1,24 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Models\UserModel;
+
 class Auth extends BaseController
 {
-private UserModel $userModel;
-public function __construct()
-{
-$this->userModel = new UserModel();
-}
-/** Halaman login. Jika sudah login, redirect ke beranda. */
-public function login(): string
-{
-if (session()->get('logged_in')) {
-return redirect()->to('/');
-}
-return view('auth/login', ['title' => 'Masuk ke Sistem']);
-}
+    private UserModel $userModel;
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
+    /** Halaman login. Jika sudah login, redirect ke beranda. */
+    public function login(): string
+    {
+        if (session()->get('logged_in')) {
+            return redirect()->to('/');
+        }
+        return view('auth/login', ['title' => 'Masuk ke Sistem']);
+    }
     /** Proses autentikasi dari form login. */
     public function prosesLogin()
     {
