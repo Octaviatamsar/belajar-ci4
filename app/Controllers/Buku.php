@@ -135,8 +135,7 @@ ditemukan');
     {
         $buku = $this->bukuModel->find($id);
         if (!$buku) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak
-ditemukan');
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku tidak  ditemukan');
         }
         return view('buku/form', [
             'title' => 'Edit Buku: ' . $buku['judul'],
@@ -149,15 +148,30 @@ ditemukan');
     // ──────────────────────────────────────
     public function update(int $id)
     {
-        $data = $this->ambilDataForm();
-        // Validasi kode unik, kecuali buku yang sedang diedit
-        if ($this->bukuModel->isKodeTaken($data['kode_buku'], $id)) {
-            session()->setFlashdata('error', 'Kode buku sudah digunakan buku lain.');
-            return redirect()->back()->withInput();
+        // is_unique dengan pengecualian: kode buku milik buku yang sedang diedit
+        $rules = [
+            'kode_buku' => [
+                'label' => 'Kode Buku',
+                'rules' =>
+                "required|min_length[3]|max_length[20]|is_unique[buku.kode_buku,id,{$id}]",
+                'errors' => [
+                    'is_unique' => 'Kode "{value}" sudah digunakan buku lain.',
+                ],
+            ],
+            'judul' => 'required|min_length[2]|max_length[200]',
+            'penulis' => 'required|min_length[2]|max_length[150]',
+            'tahun' => 'permit_empty|integer|greater_than[1499]|less_than[2100]',
+            'stok' => 'required|integer|greater_than_equal_to[0]',
+            'isbn' => 'permit_empty|min_length[10]|max_length[20]',
+        ];
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
+        $data = $this->ambilDataForm();
         $this->bukuModel->update($id, $data);
-        session()->setFlashdata('sukses', "Buku '{$data['judul']}' berhasil
-diperbarui.");
+        session()->setFlashdata('sukses', "Buku '{$data['judul']}' berhasil diperbarui.");
         return redirect()->to('/buku');
     }
     // ──────────────────────────────────────
